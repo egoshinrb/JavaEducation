@@ -1,8 +1,11 @@
-package HomeWork1.Task6;
+package AdvHomeWork1.Task6;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.ResolverStyle;
 import java.util.*;
 
 /*
@@ -19,7 +22,7 @@ public class FormValidator {
 //            checkName("s");
 //            checkName("");
 
-            checkBirthdate("28.02.2022");
+            checkBirthdate("30.02.2023");
 //            checkBirthdate("29.02.2022");
 //            checkBirthdate("19.03.2023");
 //            checkBirthdate("00.01.1900");
@@ -39,7 +42,7 @@ public class FormValidator {
 
             System.out.println(arr[1]);
 
-        } catch (Exception exception) {
+        } catch (RuntimeException | ParseException exception) {
             System.err.println(exception.getMessage());
             exception.printStackTrace();
         }
@@ -64,17 +67,27 @@ public class FormValidator {
         if (Objects.isNull(str)) {
             throw new IllegalArgumentException("Строка Birthdate не должна быть пустой.");
         }
+// 1 способ парсинга даты - через LocalDate
+        LocalDate birthdayDate = LocalDate.parse(str, (DateTimeFormatter.ofPattern("dd.MM.uuuu")).withResolverStyle(ResolverStyle.STRICT));
+        LocalDate firstDate = LocalDate.parse("01.01.1900", DateTimeFormatter.ofPattern("dd.MM.uuuu"));
+        LocalDate nowDate = LocalDate.parse(new Date().toString(), DateTimeFormatter.ofPattern("dd.MM.uuuu"));
 
-        DateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
-        formatter.setLenient(false);
-
-        Date firstDate = formatter.parse("01.01.1900");
-        Date nowDate = new Date();
-        Date currDate = formatter.parse(str);
-
-        if (currDate.after(nowDate) || currDate.before(firstDate)) {
+        if (firstDate.isAfter(birthdayDate) || birthdayDate.isAfter(nowDate)) {
             throw new IllegalArgumentException("Дата не может быть позже текущей даты или ранее 01.01.1900");
         }
+
+
+// 2 способ парсинга даты - через Date
+//        DateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
+//        formatter.setLenient(false);
+//
+//        Date firstDate = formatter.parse("01.01.1900");
+//        Date nowDate = new Date();
+//        Date currDate = formatter.parse(str);
+//
+//        if (currDate.after(nowDate) || currDate.before(firstDate)) {
+//            throw new IllegalArgumentException("Дата не может быть позже текущей даты или ранее 01.01.1900");
+//        }
     }
 
 

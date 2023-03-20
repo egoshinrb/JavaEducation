@@ -31,6 +31,9 @@ public class MyEvenNumber {
     }
 
     public void setNumber(int number) {
+        if (number % 2 != 0) {
+            throw new IllegalArgumentException("Число должно быть четным");
+        }
         this.number = number;
     }
 }
