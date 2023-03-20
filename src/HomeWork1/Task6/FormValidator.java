@@ -1,4 +1,4 @@
-package AdvHomeWork1.Task6;
+package HomeWork1.Task6;
 
 import java.text.DateFormat;
 import java.text.ParseException;
